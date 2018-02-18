@@ -1,4 +1,4 @@
-import { classes, getChildProps, getElementType, num } from '../../lib';
+import { classes, getChildProps, getElementType, num, textAlign } from '../../lib';
 import { Enum } from '../../lib/PropTypes';
 
 export default {
@@ -22,6 +22,14 @@ export default {
     relaxed: [Boolean, String],
     stackable: Boolean,
     verticalAlign: Enum(['bottom', 'middle', 'top']),
+    textAlign: Enum(['left', 'right', 'center', 'justify']),
+    container: Boolean,
+    reversed: Enum(['mobile', 'tablet', 'computer'], {
+      description: 'A grid can specify that its columns should reverse order at different device types.',
+    }),
+    verticallyReversed: Enum(['mobile', 'tablet', 'computer'], {
+      description: 'A grid can specify that its rows should reverse order at different device types.',
+    }),
   },
   render() {
     const ElementType = getElementType(this);
@@ -30,6 +38,8 @@ export default {
         {...getChildProps(this)}
         class={classes(
           'ui',
+          this.reversed && `${this.reversed} reversed`,
+          this.verticallyReversed && `${this.verticallyReversed} vertically reversed`,
           num(this.columns),
           this.columns && 'column',
           this.stackable && 'stackable',
@@ -37,6 +47,7 @@ export default {
           this.padded && 'padded',
           this.verticalAlign,
           this.verticalAlign && 'aligned',
+          textAlign(this.textAlign),
           this.centered && 'centered',
           this.divided,
           (this.divided || this.divided === '') && 'divided',
@@ -44,6 +55,7 @@ export default {
           this.relaxed !== true && this.relaxed,
           this.relaxed && 'relaxed',
           'grid',
+          this.container && 'container',
         )}
       >
         {this.$slots.default}
