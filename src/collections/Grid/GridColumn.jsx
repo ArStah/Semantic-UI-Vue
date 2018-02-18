@@ -5,7 +5,9 @@ export default {
   name: 'SuiGridColumn',
   description: 'A column sub-component for Grid.',
   props: {
-    color: Enum.Color(),
+    color: Enum.Color({
+      description: 'A grid column can be colored.',
+    }),
     centered: Boolean,
     width: {
       type: Number,
@@ -31,8 +33,15 @@ export default {
       type: Number,
       description: 'A column can specify a width for a widescreen device.',
     },
-    floated: Enum(['left', 'right']),
-    textAlign: Enum(['left', 'right', 'center', 'justify']),
+    floated: Enum(['left', 'right'], {
+      description: 'A column can sit flush against the left or right edge of a row.',
+    }),
+    textAlign: Enum.TextAlign({
+      description: 'A column can specify its text alignment.',
+    }),
+    verticalAlign: Enum.VerticalAlign({
+      description: 'A column can specify its vertical alignment to have all its columns vertically centered.',
+    }),
     only: Enum(['mobile', 'tablet', 'computer', 'widescreen', 'large screen'], {
       description: 'A column can appear only for a specific device, or screen sizes.',
     }),
@@ -49,6 +58,7 @@ export default {
         class={classes(
           this.floated && `${this.floated} floated`,
           textAlign(this.textAlign),
+          this.verticalAlign && `${this.verticalAlign} aligned`,
           num(this.width),
           this.width && 'wide',
           num(this.mobile),
